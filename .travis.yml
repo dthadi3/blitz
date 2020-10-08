@@ -18,6 +18,27 @@ matrix:
       env: COMPILER=clang CMAKE_BUILD_TYPE=Release
     - os: osx
       env: COMPILER=clang CMAKE_BUILD_TYPE=Release
+ #power_jobs
+#   - os: linux
+#     env: COMPILER=icc   CMAKE_BUILD_TYPE=Debug
+    - os: linux
+      arch: ppc64le
+      env: COMPILER=gcc   CMAKE_BUILD_TYPE=Debug
+    - os: linux
+      arch: ppc64le
+      env: COMPILER=clang CMAKE_BUILD_TYPE=Debug
+#   - os: osx
+#     env: COMPILER=clang CMAKE_BUILD_TYPE=Debug
+#   - os: linux
+#     env: COMPILER=icc   CMAKE_BUILD_TYPE=Release
+    - os: linux
+      env: COMPILER=gcc   CMAKE_BUILD_TYPE=Release
+      arch: ppc64le
+    - os: linux
+      env: COMPILER=clang CMAKE_BUILD_TYPE=Release
+      arch: ppc64le
+#   - os: osx
+#     env: COMPILER=clang CMAKE_BUILD_TYPE=Release     
 
 fast_finish: true
 
@@ -41,14 +62,12 @@ install:
     if [ $COMPILER == clang ]; then
       export CMAKE_ARGS="${CMAKE_ARGS} -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang"
     fi
-
 script:
   - |
     srcdir='..'
     mkdir build
     cd build
     cmake $CMAKE_ARGS -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DBUILD_DOC=ON -DBUILD_TESTING=ON -DDISABLE_REFMAN_PDF=ON ..
-
   - make lib
   
   - export CTEST_OUTPUT_ON_FAILURE=1
@@ -61,12 +80,9 @@ script:
       make blitz-doc
       sudo make install        # Install Blitz++
     fi
-
   - |
     if [ "${TRAVIS_OS_NAME}" == 'linux' ]; then
        LD_LIBRARY_PATH=/usr/local/lib ${srcdir}/travis-ci/check-wiki-examples.py
     fi
-
-
 after_script:
   - if [ $COMPILER == icc ]; then '[[ ! -z "${INTEL_INSTALL_PATH}" ]] && uninstall_intel_software'; fi
