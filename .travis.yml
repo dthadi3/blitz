@@ -23,17 +23,9 @@ matrix:
 #     env: COMPILER=icc   CMAKE_BUILD_TYPE=Debug
     - os: linux
       arch: ppc64le
-      addons:
-        apt:
-          packages:
-                - cmake3.12
       env: COMPILER=gcc   CMAKE_BUILD_TYPE=Debug
     - os: linux
       arch: ppc64le
-      addons:
-        apt:
-          packages:
-                - cmake3.12
       env: COMPILER=clang CMAKE_BUILD_TYPE=Debug
 #   - os: osx
 #     env: COMPILER=clang CMAKE_BUILD_TYPE=Debug
@@ -41,23 +33,17 @@ matrix:
 #     env: COMPILER=icc   CMAKE_BUILD_TYPE=Release
     - os: linux
       arch: ppc64le
-      addons:
-        apt:
-          packages:
-                - cmake3.12
       env: COMPILER=gcc   CMAKE_BUILD_TYPE=Release
     - os: linux
       arch: ppc64le
       env: COMPILER=clang CMAKE_BUILD_TYPE=Release
-      addons:
-        apt:
-          packages:
-                - cmake3.12
 #   - os: osx
 #     env: COMPILER=clang CMAKE_BUILD_TYPE=Release     
 
 fast_finish: true
 
+Before_install:
+  - if [ "$TRAVIS_ARCH" = "ppc64le" ]; then sudo apt-get update; sudo apt-get install cmake; fi
 install:
   - |
     if [ "${TRAVIS_OS_NAME}" == 'linux' ]; then
