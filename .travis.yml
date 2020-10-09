@@ -18,7 +18,7 @@ matrix:
       env: COMPILER=clang CMAKE_BUILD_TYPE=Release
     - os: osx
       env: COMPILER=clang CMAKE_BUILD_TYPE=Release
- #power_jobs
+#power_jobs
 #   - os: linux
 #     env: COMPILER=icc   CMAKE_BUILD_TYPE=Debug
     - os: linux
@@ -44,8 +44,14 @@ fast_finish: true
 
 Before_install:
   - |
-    if [ "$TRAVIS_CPU_ARCH" = "ppc64le" ]; then
-    apt-get update && apt-get install make gcc g++ wget libncurses5-dev -y && wget https://cmake.org/files/v3.12/cmake-3.12.1.tar.gz && tar -xzvf cmake-3.12.1.tar.gz && cd cmake-3.12.0 && ./bootstrap && make && make install && cd .. && rm -rf cmake-3.12.1.tar.gz cmake-3.12.0 && apt-get purge --auto-remove wget make gcc g++ -y
+    if [ "$TRAVIS_CPU_ARCH" = "ppc64le" ]; then 
+    sudo apt-get install make gcc g++ wget libncurses5-dev -y \
+    && wget https://cmake.org/files/v3.12/cmake-3.12.1.tar.gz \
+    && tar -xzvf cmake-3.12.1.tar.gz \
+    && cd cmake-3.12.0 \
+    # make
+    && ./bootstrap && make && make install \
+    && cd .. && rm -rf cmake-3.12.1.tar.gz cmake-3.12.0
     fi
 install:
   - |
