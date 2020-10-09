@@ -46,12 +46,12 @@ Before_install:
   - |
     if [ "$TRAVIS_CPU_ARCH" = "ppc64le" ]; then 
     sudo apt-get install make gcc g++ wget libncurses5-dev -y \
-    && wget https://cmake.org/files/v3.12/cmake-3.12.1.tar.gz \
-    && tar -xzvf cmake-3.12.1.tar.gz \
-    && cd cmake-3.12.0 \
+    wget https://cmake.org/files/v3.12/cmake-3.12.1.tar.gz \
+    tar -xzvf cmake-3.12.1.tar.gz \
+    cd cmake-3.12.0 \
     # make
-    && ./bootstrap && make && make install \
-    && cd .. && rm -rf cmake-3.12.1.tar.gz cmake-3.12.0
+    ./bootstrap && make && make install \
+    cd .. && rm -rf cmake-3.12.1.tar.gz cmake-3.12.0
     fi
 install:
   - |
