@@ -51,7 +51,7 @@ Before_install:
     && tar -xvf cmake-3.12.1.tar.gz \
     && cd cmake-3.12.0 \
     # make
-    && ./bootstrap && make && make install \
+    ./bootstrap && make && make install \
     && cd .. && rm -rf cmake-3.12.1.tar.gz cmake-3.12.0
     fi
 install:
