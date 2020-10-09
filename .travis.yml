@@ -45,7 +45,7 @@ fast_finish: true
 Before_install:
   - |
     if [ "$TRAVIS_CPU_ARCH" = "ppc64le" ]; then
-    RUN apt-get update \
+    apt-get update \
     && apt-get install make gcc g++ wget libncurses5-dev -y \
     && wget https://cmake.org/files/v3.12/cmake-3.12.1.tar.gz \
     && tar -xzvf cmake-3.12.1.tar.gz \
