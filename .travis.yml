@@ -37,8 +37,9 @@ fast_finish: true
 Before_install:
     - |
       if [[ "$TRAVIS_CPU_ARCH" = "ppc64le" ]]; then 
-        sudo apt-get update -y
-        sudo apt-get install -y cmake 
+        CMAKE_URL="https://cmake.org/files/v3.12/cmake-3.12.2.tar.gz"
+        mkdir cmake3.12 && travis_retry wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake3.12
+        export PATH=${PWD}/cmake3.3/bin:${PATH}
       fi
 install:
     - |
