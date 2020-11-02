@@ -35,37 +35,36 @@ matrix:
 fast_finish: true
 
 Before_install:
-  - |
-    if [[ "$TRAVIS_CPU_ARCH" = "ppc64le" ]]; then 
-    sudo apt-get update \
-    && apt-get install make gcc g++ wget libncurses5-dev -y \
-    && wget https://cmake.org/files/v3.12/cmake-3.12.1.tar.gz \
-    && tar -xvf cmake-3.12.1.tar.gz \
-    && cd cmake-3.12.0 \
+    - |
+      if [[ "$TRAVIS_CPU_ARCH" = "ppc64le" ]]; then 
+        sudo apt-get update apt-get install make gcc g++ wget libncurses5-dev -y 
+        wget https://cmake.org/files/v3.12/cmake-3.12.1.tar.gz
+        tar -xvf cmake-3.12.1.tar.gz
+        cd cmake-3.12.1
     # make
-    ./bootstrap && make && make install \
-    && cd .. && rm -rf cmake-3.12.1.tar.gz cmake-3.12.0
-    fi
+        ./bootstrap && make && make install
+        cd .. && rm -rf cmake-3.12.1.tar.gz cmake-3.12.0
+      fi
 install:
-  - |
-    if [ "${TRAVIS_OS_NAME}" == 'linux' ]; then
-      sudo apt-get --no-install-recommends install texinfo texi2html texlive-base texlive-generic-recommended texlive-fonts-recommended doxygen graphviz texlive-latex-base texlive-latex-recommended texlive-latex-extra python-git
-    else
-      brew install texinfo
-      brew ln texinfo --force
-      brew upgrade cmake
-    fi
-  - |
-    if [ $COMPILER == icc ]; then 
-      wget "https://raw.githubusercontent.com/nemequ/icc-travis/master/install-icc.sh"
-      sudo sh install-icc.sh
-      source ~/.bashrc
-      export CMAKE_ARGS="${CMAKE_ARGS} -DCMAKE_CXX_COMPILER=icpc -DCMAKE_C_COMPILER=icc"
-    fi
-  - |
-    if [ $COMPILER == clang ]; then
-      export CMAKE_ARGS="${CMAKE_ARGS} -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang"
-    fi
+    - |
+      if [ "${TRAVIS_OS_NAME}" == 'linux' ]; then
+        sudo apt-get --no-install-recommends install texinfo texi2html texlive-base texlive-generic-recommended texlive-fonts-recommended doxygen graphviz texlive-latex-base texlive-latex-recommended texlive-latex-extra python-git
+      else
+        brew install texinfo
+        brew ln texinfo --force
+        brew upgrade cmake
+      fi
+    - |
+      if [ $COMPILER == icc ]; then 
+        wget "https://raw.githubusercontent.com/nemequ/icc-travis/master/install-icc.sh"
+        sudo sh install-icc.sh
+        source ~/.bashrc
+        export CMAKE_ARGS="${CMAKE_ARGS} -DCMAKE_CXX_COMPILER=icpc -DCMAKE_C_COMPILER=icc"
+      fi
+    - |
+      if [ $COMPILER == clang ]; then
+        export CMAKE_ARGS="${CMAKE_ARGS} -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang"
+      fi
 script:
   - |
     srcdir='..'
